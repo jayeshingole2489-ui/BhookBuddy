@@ -1,0 +1,31 @@
+# Maven build artifacts
+backend/*/target/
+backend/**/target/
+backend/**/data/
+
+# Node / frontend
+frontend/node_modules/
+frontend/dist/
+# package-lock.json is excluded because it reflects the local npm registry
+# configuration (corporate Artifactory proxy) rather than project dependencies.
+# Run `npm install` after cloning to regenerate it.
+frontend/package-lock.json
+
+# IDE
+.idea/
+*.iml
+.vscode/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Secrets / credentials
+*.env
+.env.*
+secrets/
+
+# H2 database files (local dev only)
+backend/**/data/*.mv.db
+backend/**/data/*.trace.db
