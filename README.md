@@ -274,7 +274,7 @@ H2 console credentials: JDBC URL as above, username `sa`, password _(leave blank
 | Field | Value |
 |---|---|
 | Login URL | http://localhost:3000/login |
-| Email | `admin@swiftbite.com` |
+| Email | `admin@bhookbuddy.com` |
 | Password | `Admin@123` |
 | Dashboard | http://localhost:3000/admin |
 
