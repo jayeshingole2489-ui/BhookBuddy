@@ -26,13 +26,9 @@ const OrderTracking: React.FC = () => {
   const fetchData = useCallback(async () => {
     if (!orderId) return;
     try {
-      const [orderData] = await Promise.all([
-        orderService.getById(orderId),
-      ]);
+      const orderData = await orderService.getById(orderId);
       setOrder(orderData);
-      if (orderData.deliveryId) {
-        deliveryService.getByOrderId(orderId).then(setDelivery).catch(() => {});
-      }
+      deliveryService.getByOrderId(orderId).then(setDelivery).catch(() => {});
       setLastRefreshed(new Date());
     } catch {
       // silently fail on refresh
@@ -43,9 +39,14 @@ const OrderTracking: React.FC = () => {
 
   useEffect(() => {
     fetchData();
-    const interval = setInterval(fetchData, 30000);
+    // Poll every 5s if order is not delivered/cancelled
+    const interval = setInterval(() => {
+      if (order?.status !== 'DELIVERED' && order?.status !== 'CANCELLED') {
+        fetchData();
+      }
+    }, 5000);
     return () => clearInterval(interval);
-  }, [fetchData]);
+  }, [fetchData, order?.status]);
 
   const getStepStatus = (stepKey: string): 'completed' | 'active' | 'upcoming' => {
     if (!order) return 'upcoming';
@@ -77,11 +78,28 @@ const OrderTracking: React.FC = () => {
           <h1 style={{ fontSize: '26px', fontWeight: 800, color: '#1A1A2E', marginBottom: '4px' }}>Track Order</h1>
           <p style={{ fontSize: '14px', color: '#999', fontFamily: 'monospace' }}>#{order.orderId}</p>
         </div>
-        <div style={{ textAlign: 'right' }}>
+        <div style={{ textAlign: 'right', display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '6px' }}>
           <span className={`status-badge status-${order.status}`}>{order.status.replace(/_/g, ' ')}</span>
-          <p style={{ fontSize: '12px', color: '#999', marginTop: '6px' }}>
-            Last updated: {lastRefreshed.toLocaleTimeString()}
-          </p>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <p style={{ fontSize: '12px', color: '#999', margin: 0 }}>
+              {lastRefreshed.toLocaleTimeString()}
+            </p>
+            <button
+              onClick={() => fetchData()}
+              style={{
+                background: '#f0f0f0',
+                border: 'none',
+                borderRadius: '6px',
+                padding: '4px 8px',
+                fontSize: '12px',
+                cursor: 'pointer',
+                fontWeight: 600,
+                color: '#555',
+              }}
+            >
+              🔄 Refresh
+            </button>
+          </div>
         </div>
       </div>
 

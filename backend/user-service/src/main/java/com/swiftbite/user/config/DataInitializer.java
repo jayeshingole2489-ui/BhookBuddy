@@ -27,6 +27,18 @@ public class DataInitializer {
     }
 
     private void createAdminUser() {
+        if (!userRepository.existsByEmail("admin@bhookbuddy.com")) {
+            User bhookAdmin = new User();
+            bhookAdmin.setEmail("admin@bhookbuddy.com");
+            bhookAdmin.setPassword(passwordEncoder.encode("Admin@123"));
+            bhookAdmin.setFirstName("Admin");
+            bhookAdmin.setLastName("BhookBuddy");
+            bhookAdmin.setPhone("+911234567890");
+            bhookAdmin.setRole(Role.ROLE_ADMIN);
+            bhookAdmin.setActive(true);
+            userRepository.save(bhookAdmin);
+        }
+
         if (userRepository.existsByEmail("admin@swiftbite.com")) {
             return;
         }
@@ -35,7 +47,7 @@ public class DataInitializer {
         admin.setEmail("admin@swiftbite.com");
         admin.setPassword(passwordEncoder.encode("Admin@123"));
         admin.setFirstName("Admin");
-        admin.setLastName("SwiftBite");
+        admin.setLastName("BhookBuddy");
         admin.setPhone("+911234567890");
         admin.setRole(Role.ROLE_ADMIN);
         admin.setActive(true);

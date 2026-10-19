@@ -104,7 +104,34 @@ public class DeliveryService {
 
         delivery = deliveryRepository.save(delivery);
         logger.info("Delivery {} status updated to {}", deliveryId, newStatus);
-        publishDeliveryEvent(delivery, "DELIVERY_STATUS_UPDATED");
+
+        String eventType = switch (newStatus) {
+            case PICKED_UP -> "DELIVERY_PICKED_UP";
+            case DELIVERED -> "DELIVERY_DELIVERED";
+            case CANCELLED -> "DELIVERY_CANCELLED";
+            case OUT_FOR_DELIVERY -> "DELIVERY_OUT_FOR_DELIVERY";
+            case ASSIGNED -> "DELIVERY_ASSIGNED";
+            default -> "DELIVERY_STATUS_UPDATED";
+        };
+        publishDeliveryEvent(delivery, eventType);
+
+        return toResponse(delivery);
+    }
+
+    @Transactional
+    public DeliveryResponse assignDeliveryPerson(String deliveryId, String name, String phone) {
+        Delivery delivery = deliveryRepository.findByDeliveryId(deliveryId)
+                .orElseThrow(() -> new RuntimeException("Delivery not found: " + deliveryId));
+
+        delivery.setDeliveryPersonName(name);
+        delivery.setDeliveryPersonPhone(phone);
+        if (delivery.getStatus() == DeliveryStatus.WAITING_FOR_ASSIGNMENT) {
+            delivery.setStatus(DeliveryStatus.ASSIGNED);
+            delivery.setAssignedAt(LocalDateTime.now());
+        }
+        delivery = deliveryRepository.save(delivery);
+        logger.info("Delivery {} assigned to {} ({})", deliveryId, name, phone);
+        publishDeliveryEvent(delivery, "DELIVERY_ASSIGNED");
 
         return toResponse(delivery);
     }

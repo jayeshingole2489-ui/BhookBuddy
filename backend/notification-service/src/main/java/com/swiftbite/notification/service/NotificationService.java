@@ -126,8 +126,14 @@ public class NotificationService {
                         personName + " will deliver your order.");
                 logger.info("DELIVERY_ASSIGNED notification created for user {}", event.getUserId());
             }
-            case "DELIVERY_PICKED_UP", "DELIVERY_STATUS_UPDATED" -> {
-                if ("OUT_FOR_DELIVERY".equals(event.getStatus()) || "PICKED_UP".equals(event.getStatus())) {
+            case "DELIVERY_PICKED_UP", "DELIVERY_OUT_FOR_DELIVERY", "DELIVERY_STATUS_UPDATED" -> {
+                if ("DELIVERED".equals(event.getStatus())) {
+                    createNotification(event.getUserId(), event.getOrderId(),
+                            NotificationType.ORDER_DELIVERED,
+                            "Delivered!",
+                            "Your food has arrived!");
+                    logger.info("ORDER_DELIVERED notification created for user {}", event.getUserId());
+                } else if ("OUT_FOR_DELIVERY".equals(event.getStatus()) || "PICKED_UP".equals(event.getStatus())) {
                     createNotification(event.getUserId(), event.getOrderId(),
                             NotificationType.OUT_FOR_DELIVERY,
                             "Out for Delivery!",

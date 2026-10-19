@@ -26,6 +26,12 @@ Thumbs.db
 .env.*
 secrets/
 
-# H2 database files (local dev only)
+# Logs
+*.log
+logs/
+
+# H2 database & local runtime storage
 backend/**/data/*.mv.db
 backend/**/data/*.trace.db
+data/
+kafka/

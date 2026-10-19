@@ -232,44 +232,36 @@ public class OrderService {
             return;
         }
 
-        String eventType = event.getEventType();
-        switch (eventType) {
-            case "DELIVERY_CREATED":
-                order.setDeliveryId(event.getDeliveryId());
-                orderRepository.save(order);
-                logger.info("Delivery created for order: orderId={}, deliveryId={}",
-                        event.getOrderId(), event.getDeliveryId());
-                break;
+        String eventType = event.getEventType() != null ? event.getEventType() : "";
+        String status = event.getStatus() != null ? event.getStatus() : "";
 
-            case "DELIVERY_ASSIGNED":
-                order.setDeliveryId(event.getDeliveryId());
-                order.setStatus(OrderStatus.OUT_FOR_DELIVERY);
-                orderRepository.save(order);
-                logger.info("Order out for delivery: orderId={}", event.getOrderId());
-                break;
+        logger.info("Processing delivery event: eventType={}, status={}, orderId={}", eventType, status, event.getOrderId());
 
-            case "DELIVERY_PICKED_UP":
-                order.setStatus(OrderStatus.OUT_FOR_DELIVERY);
-                orderRepository.save(order);
-                logger.info("Order picked up: orderId={}", event.getOrderId());
-                break;
+        if (event.getDeliveryId() != null) {
+            order.setDeliveryId(event.getDeliveryId());
+        }
 
-            case "DELIVERY_DELIVERED":
-                order.setStatus(OrderStatus.DELIVERED);
-                Order saved = orderRepository.save(order);
-                publishOrderEvent(saved, "ORDER_DELIVERED");
-                logger.info("Order delivered: orderId={}", event.getOrderId());
-                break;
-
-            case "DELIVERY_CANCELLED":
-                order.setStatus(OrderStatus.CANCELLED);
-                Order cancelledOrder = orderRepository.save(order);
-                publishOrderEvent(cancelledOrder, "ORDER_CANCELLED");
-                logger.info("Order cancelled due to delivery cancellation: orderId={}", event.getOrderId());
-                break;
-
-            default:
-                logger.warn("Unknown delivery event type: {}", eventType);
+        if ("DELIVERY_DELIVERED".equals(eventType) || "DELIVERED".equalsIgnoreCase(status)) {
+            order.setStatus(OrderStatus.DELIVERED);
+            Order saved = orderRepository.save(order);
+            publishOrderEvent(saved, "ORDER_DELIVERED");
+            logger.info("Order marked as DELIVERED: orderId={}", event.getOrderId());
+        } else if ("DELIVERY_CANCELLED".equals(eventType) || "CANCELLED".equalsIgnoreCase(status)) {
+            order.setStatus(OrderStatus.CANCELLED);
+            Order cancelledOrder = orderRepository.save(order);
+            publishOrderEvent(cancelledOrder, "ORDER_CANCELLED");
+            logger.info("Order marked as CANCELLED: orderId={}", event.getOrderId());
+        } else if ("DELIVERY_PICKED_UP".equals(eventType) || "PICKED_UP".equalsIgnoreCase(status)
+                || "DELIVERY_OUT_FOR_DELIVERY".equals(eventType) || "OUT_FOR_DELIVERY".equalsIgnoreCase(status)
+                || "DELIVERY_ASSIGNED".equals(eventType) || "ASSIGNED".equalsIgnoreCase(status)) {
+            order.setStatus(OrderStatus.OUT_FOR_DELIVERY);
+            orderRepository.save(order);
+            logger.info("Order marked as OUT_FOR_DELIVERY: orderId={}", event.getOrderId());
+        } else if ("DELIVERY_CREATED".equals(eventType) || "WAITING_FOR_ASSIGNMENT".equalsIgnoreCase(status)) {
+            orderRepository.save(order);
+            logger.info("Delivery record linked for order: orderId={}", event.getOrderId());
+        } else {
+            logger.warn("Unhandled delivery event: eventType={}, status={}", eventType, status);
         }
     }
 

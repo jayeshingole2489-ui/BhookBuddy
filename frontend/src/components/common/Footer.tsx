@@ -18,8 +18,8 @@ const Footer: React.FC = () => {
         }}>
           <div>
             <div style={{ marginBottom: '12px' }}>
-              <span style={{ fontSize: '20px', fontWeight: 800 }}>Swift</span>
-              <span style={{ fontSize: '20px', fontWeight: 800, color: '#FF6B35' }}>Bite</span>
+              <span style={{ fontSize: '20px', fontWeight: 800 }}>Bhook</span>
+              <span style={{ fontSize: '20px', fontWeight: 800, color: '#FF6B35' }}>Buddy</span>
               <span style={{
                 width: '6px', height: '6px', borderRadius: '50%',
                 background: '#FF6B35', display: 'inline-block', marginLeft: '2px', marginBottom: '6px',
@@ -42,13 +42,13 @@ const Footer: React.FC = () => {
           </div>
           <div>
             <h4 style={{ fontSize: '14px', fontWeight: 600, marginBottom: '16px', color: '#ccc', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Contact</h4>
-            <p style={{ color: '#aaa', fontSize: '14px', marginBottom: '8px' }}>📧 support@swiftbite.com</p>
-            <p style={{ color: '#aaa', fontSize: '14px', marginBottom: '8px' }}>📞 1800-SWIFT-BITE</p>
+            <p style={{ color: '#aaa', fontSize: '14px', marginBottom: '8px' }}>📧 support@bhookbuddy.com</p>
+            <p style={{ color: '#aaa', fontSize: '14px', marginBottom: '8px' }}>📞 1800-BHOOK-BUDDY</p>
             <p style={{ color: '#aaa', fontSize: '14px' }}>⏰ 8 AM – 11 PM, 7 days</p>
           </div>
         </div>
         <div style={{ borderTop: '1px solid #2a2a3e', paddingTop: '24px', textAlign: 'center', color: '#666', fontSize: '13px' }}>
-          © {new Date().getFullYear()} SwiftBite. All rights reserved.
+          © {new Date().getFullYear()} BhookBuddy. All rights reserved.
         </div>
       </div>
     </footer>

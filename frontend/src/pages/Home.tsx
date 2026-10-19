@@ -255,7 +255,7 @@ const Home: React.FC = () => {
               marginBottom: '48px',
             }}
           >
-            How SwiftBite Works
+            How BhookBuddy Works
           </h2>
           <div
             style={{

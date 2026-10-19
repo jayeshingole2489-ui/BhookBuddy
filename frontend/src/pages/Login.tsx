@@ -70,8 +70,8 @@ const Login: React.FC = () => {
         {/* Logo */}
         <div style={{ textAlign: 'center', marginBottom: '32px' }}>
           <div style={{ marginBottom: '8px' }}>
-            <span style={{ fontSize: '28px', fontWeight: 800, color: '#1A1A2E' }}>Swift</span>
-            <span style={{ fontSize: '28px', fontWeight: 800, color: '#FF6B35' }}>Bite</span>
+            <span style={{ fontSize: '28px', fontWeight: 800, color: '#1A1A2E' }}>Bhook</span>
+            <span style={{ fontSize: '28px', fontWeight: 800, color: '#FF6B35' }}>Buddy</span>
           </div>
           <h2 style={{ fontSize: '22px', fontWeight: 700, color: '#1A1A2E', marginBottom: '6px' }}>Welcome back</h2>
           <p style={{ fontSize: '14px', color: '#666' }}>Sign in to your account</p>

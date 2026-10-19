@@ -1,8 +1,8 @@
-# SwiftBite — Food Delivery Platform
+# BhookBuddy — Food Delivery Platform
 
 > "Delicious food, delivered swift."
 
-SwiftBite is a **portfolio-quality, full-stack microservices food delivery application** demonstrating Java, Spring Boot, Spring Cloud, Apache Kafka, React, and distributed-system design. It is an independently designed and built application — not affiliated with or derived from any commercial delivery platform.
+BhookBuddy is a **portfolio-quality, full-stack microservices food delivery application** demonstrating Java, Spring Boot, Spring Cloud, Apache Kafka, React, and distributed-system design. It is an independently designed and built application — not affiliated with or derived from any commercial delivery platform.
 
 ---
 
@@ -28,6 +28,18 @@ SwiftBite is a **portfolio-quality, full-stack microservices food delivery appli
 - View all payments; issue mock refunds
 - View all deliveries and manually update delivery status
 - Enable/disable user accounts
+
+---
+
+## 📸 Application Screenshots
+
+| Home & Restaurant Discovery | Restaurant Menu & Ordering |
+|:---:|:---:|
+| ![BhookBuddy Home](docs/screenshots/home.png) | ![Restaurant Menu](docs/screenshots/restaurant_menu.png) |
+
+| User Login & Authentication | User Registration |
+|:---:|:---:|
+| ![Login](docs/screenshots/login.png) | ![Registration](docs/screenshots/register.png) |
 
 ---
 

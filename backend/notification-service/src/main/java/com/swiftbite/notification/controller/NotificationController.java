@@ -32,7 +32,7 @@ public class NotificationController {
         return ResponseEntity.ok(Map.of("unreadCount", count));
     }
 
-    @PutMapping("/{id}/read")
+    @RequestMapping(value = "/{id}/read", method = {RequestMethod.PUT, RequestMethod.PATCH})
     public ResponseEntity<NotificationResponse> markAsRead(
             @RequestHeader("X-User-Id") Long userId,
             @PathVariable Long id) {
@@ -46,7 +46,7 @@ public class NotificationController {
         }
     }
 
-    @PutMapping("/read-all")
+    @RequestMapping(value = "/read-all", method = {RequestMethod.PUT, RequestMethod.PATCH})
     public ResponseEntity<Void> markAllAsRead(
             @RequestHeader("X-User-Id") Long userId) {
         notificationService.markAllAsRead(userId);

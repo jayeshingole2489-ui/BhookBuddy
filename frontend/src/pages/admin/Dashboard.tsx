@@ -52,7 +52,7 @@ const Dashboard: React.FC = () => {
       <AdminSidebar />
       <div style={{ flex: 1, minWidth: 0 }}>
         <h1 style={{ fontSize: '26px', fontWeight: 800, color: '#1A1A2E', marginBottom: '8px' }}>Dashboard</h1>
-        <p style={{ fontSize: '15px', color: '#666', marginBottom: '32px' }}>Welcome to SwiftBite admin panel</p>
+        <p style={{ fontSize: '15px', color: '#666', marginBottom: '32px' }}>Welcome to BhookBuddy admin panel</p>
 
         {loading ? <LoadingSpinner /> : (
           <>

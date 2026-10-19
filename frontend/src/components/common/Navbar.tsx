@@ -67,7 +67,7 @@ const Navbar: React.FC = () => {
               color: '#1A1A2E',
               letterSpacing: '-0.5px',
             }}>
-              Swift
+              Bhook
             </span>
             <span style={{
               fontSize: '22px',
@@ -75,7 +75,7 @@ const Navbar: React.FC = () => {
               color: '#FF6B35',
               letterSpacing: '-0.5px',
             }}>
-              Bite
+              Buddy
             </span>
             <span style={{
               width: '8px',

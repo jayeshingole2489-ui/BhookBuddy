@@ -18,10 +18,12 @@ public class DeliveryController {
 
     @GetMapping("/order/{orderId}")
     public ResponseEntity<DeliveryResponse> getDeliveryByOrderId(
-            @RequestHeader("X-User-Id") Long userId,
+            @RequestHeader(value = "X-User-Id", required = false) Long userId,
+            @RequestHeader(value = "X-User-Roles", required = false) String roles,
             @PathVariable String orderId) {
         DeliveryResponse response = deliveryService.getDeliveryByOrderId(orderId);
-        if (!response.getUserId().equals(userId)) {
+        boolean isAdmin = roles != null && (roles.contains("ROLE_ADMIN") || roles.contains("ADMIN"));
+        if (!isAdmin && userId != null && !response.getUserId().equals(userId)) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
         return ResponseEntity.ok(response);
@@ -29,10 +31,12 @@ public class DeliveryController {
 
     @GetMapping("/{deliveryId}")
     public ResponseEntity<DeliveryResponse> getDeliveryById(
-            @RequestHeader("X-User-Id") Long userId,
+            @RequestHeader(value = "X-User-Id", required = false) Long userId,
+            @RequestHeader(value = "X-User-Roles", required = false) String roles,
             @PathVariable String deliveryId) {
         DeliveryResponse response = deliveryService.getDeliveryById(deliveryId);
-        if (!response.getUserId().equals(userId)) {
+        boolean isAdmin = roles != null && (roles.contains("ROLE_ADMIN") || roles.contains("ADMIN"));
+        if (!isAdmin && userId != null && !response.getUserId().equals(userId)) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
         return ResponseEntity.ok(response);

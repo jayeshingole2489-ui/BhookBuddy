@@ -1,5 +1,6 @@
 package com.swiftbite.delivery.controller;
 
+import com.swiftbite.delivery.dto.AssignDeliveryRequest;
 import com.swiftbite.delivery.dto.DeliveryResponse;
 import com.swiftbite.delivery.dto.UpdateDeliveryStatusRequest;
 import com.swiftbite.delivery.service.DeliveryService;
@@ -24,7 +25,7 @@ public class AdminDeliveryController {
         return ResponseEntity.ok(deliveryService.getAllDeliveries());
     }
 
-    @PutMapping("/{deliveryId}/status")
+    @RequestMapping(value = "/{deliveryId}/status", method = {RequestMethod.PUT, RequestMethod.PATCH})
     public ResponseEntity<DeliveryResponse> updateStatus(
             @PathVariable String deliveryId,
             @Valid @RequestBody UpdateDeliveryStatusRequest request) {
@@ -34,5 +35,17 @@ public class AdminDeliveryController {
         } catch (IllegalStateException e) {
             return ResponseEntity.badRequest().build();
         }
+    }
+
+    @RequestMapping(value = "/{deliveryId}/assign", method = {RequestMethod.PUT, RequestMethod.PATCH})
+    public ResponseEntity<DeliveryResponse> assignDeliveryPerson(
+            @PathVariable String deliveryId,
+            @Valid @RequestBody AssignDeliveryRequest request) {
+        DeliveryResponse response = deliveryService.assignDeliveryPerson(
+                deliveryId,
+                request.getDeliveryPersonName(),
+                request.getDeliveryPersonPhone()
+        );
+        return ResponseEntity.ok(response);
     }
 }
